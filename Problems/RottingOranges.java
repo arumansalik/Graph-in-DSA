@@ -9,10 +9,9 @@ public class RottingOranges {
         Queue<int[]> q = new LinkedList<>();
         int fresh = 0;
 
-        // Add all rotten oranges initially
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                if (grid[r][c] == 2) {
+        for(int r = 0; r < rows; r++) {
+            for(int c = 0; c < cols; c++) {
+                if(grid[r][c] == 2) {
                     q.offer(new int[]{r, c});
                 } else if (grid[r][c] == 1) {
                     fresh++;
@@ -20,32 +19,32 @@ public class RottingOranges {
             }
         }
 
-        if (fresh == 0) return 0;
+        if(fresh == 0) return 0;
 
         int minutes = -1;
-        int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
+        int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-        while (!q.isEmpty()) {
+        while(!q.isEmpty()) {
             int size = q.size();
             minutes++;
 
-            for (int i = 0; i < size; i++) {
-                int[] cur = q.poll();
-                int r = cur[0], c = cur[1];
+            for(int i = 0; i < size; i++) {
+                int[] curr = q.poll();
+                int r = curr[0], c = curr[1];
 
-                for (int[] d : dirs) {
+                for(int[] d : dirs) {
                     int nr = r + d[0];
                     int nc = c + d[1];
 
-                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 1) {
+                    if(nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 1) {
                         grid[nr][nc] = 2;
                         fresh--;
                         q.offer(new int[]{nr, nc});
+
                     }
                 }
             }
         }
-
         return fresh == 0 ? minutes : -1;
     }
 
