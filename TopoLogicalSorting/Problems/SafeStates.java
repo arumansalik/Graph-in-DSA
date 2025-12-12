@@ -11,7 +11,9 @@ public class SafeStates {
         int[] outdegree = new int[n];
         for (int u = 0; u < n; u++) {
             outdegree[u] = graph[u].length;
-            for (int v : graph[u]) reverse.get(v).add(u);
+            for (int v : graph[u]) {
+                reverse.get(v).add(u);
+            }
         }
 
         Queue<Integer> q = new ArrayDeque<>();
