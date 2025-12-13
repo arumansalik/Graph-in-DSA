@@ -1,8 +1,6 @@
 package ShortestPath;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.TreeSet;
+import java.util.*;
 
 public class DijkstraAlgoUsingSet {
     static class Pair {
