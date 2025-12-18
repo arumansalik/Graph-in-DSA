@@ -30,8 +30,8 @@ public class ShortestPathInGrid {
         dist[source[0]][source[1]] = 0;
         q.add(new Tuple(0, source[0], source[1]));
 
-        int[] dr = {-1, 0, 1, 0};
-        int[] dc = {0, 1, 0, -1};
+        int[] dr = {-1, 0, 1, 0, 1, 1};
+        int[] dc = {0, 1, 0, -1, 1, 0, 1};
 
         while(!q.isEmpty()) {
              Tuple curr = q.poll();
