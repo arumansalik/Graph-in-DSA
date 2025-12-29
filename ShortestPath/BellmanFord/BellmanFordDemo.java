@@ -25,6 +25,7 @@ class Solution {
             }
         }
 
+        //“Can any distance still be reduced after N−1 iterations?”
         for(Edge e: edge) {
             if(dist[e.u] != 1e8 && dist[e.u] + e.w < dist[e.v]) {
                 System.out.println("Negative Cycles detected");
