@@ -4,50 +4,71 @@ import java.util.*;
 
 public class ConnectedComponents {
 
-    public static int countComponents(int V, int[][] edges) {
-        List<List<Integer>> graph = new ArrayList<>();
-        for (int i = 0; i < V; i++) {
-            graph.add(new ArrayList<>());
-        }
+        // Union-Find (Disjoint Set)
+        static class UnionFind {
+            int[] parent;
+            int[] rank;
 
-        for (int[] edge : edges) {
-            int u = edge[0];
-            int v = edge[1];
-            graph.get(u).add(v);
-            graph.get(v).add(u);
-        }
+            UnionFind(int n) {
+                parent = new int[n];
+                rank = new int[n];
 
-        boolean[] visited = new boolean[V];
-        int components = 0;
+                // Initially, each node is its own parent
+                for (int i = 0; i < n; i++) {
+                    parent[i] = i;
+                }
+            }
 
-        for (int i = 0; i < V; i++) {
-            if (!visited[i]) {
-                components++;
-                dfs(i, graph, visited);
+            // Find with path compression
+            int find(int x) {
+                if (parent[x] != x) {
+                    parent[x] = find(parent[x]);
+                }
+                return parent[x];
+            }
+
+            // Union by rank
+            boolean union(int x, int y) {
+                int px = find(x);
+                int py = find(y);
+
+                if (px == py) return false; // already connected
+
+                if (rank[px] < rank[py]) {
+                    parent[px] = py;
+                } else if (rank[px] > rank[py]) {
+                    parent[py] = px;
+                } else {
+                    parent[py] = px;
+                    rank[px]++;
+                }
+                return true;
             }
         }
 
-        return components;
-    }
+        // Count connected components
+        public static int countComponents(int V, int[][] edges) {
+            UnionFind uf = new UnionFind(V);
+            int components = V;
 
-    private static void dfs(int node, List<List<Integer>> graph, boolean[] visited) {
-        visited[node] = true;
-
-        for (int neighbor : graph.get(node)) {
-            if (!visited[neighbor]) {
-                dfs(neighbor, graph, visited);
+            for (int[] edge : edges) {
+                if (uf.union(edge[0], edge[1])) {
+                    components--;
+                }
             }
+
+            return components;
+        }
+
+        // MAIN METHOD — run locally
+        public static void main(String[] args) {
+
+            int V1 = 4;
+            int[][] edges1 = {{0,1},{1,2}};
+            System.out.println(countComponents(V1, edges1)); // Output: 2
+
+            int V2 = 7;
+            int[][] edges2 = {{0,1},{1,2},{2,3},{4,5}};
+            System.out.println(countComponents(V2, edges2)); // Output: 3
         }
     }
-
-    public static void main(String[] args) {
-
-        int V1 = 4;
-        int[][] edges1 = {{0,1},{1,2}};
-        System.out.println(countComponents(V1, edges1)); // Output: 2
-
-        int V2 = 7;
-        int[][] edges2 = {{0,1},{1,2},{2,3},{4,5}};
-        System.out.println(countComponents(V2, edges2)); // Output: 3
-    }
-}
