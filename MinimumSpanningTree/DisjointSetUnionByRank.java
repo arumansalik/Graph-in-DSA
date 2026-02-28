@@ -39,7 +39,6 @@ class DisjointSet {
     }
 }
 
-
 public class DisjointSetUnionByRank {
     public static void main(String[] args) {
 
